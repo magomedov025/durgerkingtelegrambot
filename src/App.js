@@ -9,10 +9,11 @@ const tele = window.Telegram.WebApp
 
 function App() {
 	const [cartItems, setCartItems] = useState([])
+	const [isCheckoutSuccessful, setIsCheckoutSuccessful] = useState(false)
 
 	useEffect(() => {
 		tele.ready()
-	})
+	}, [])
 
 	const onAdd = food => {
 		const exist = cartItems.find(x => x.id === food.id)
@@ -40,41 +41,56 @@ function App() {
 		}
 	}
 
-	const onCheckout = () => {
-		// Подготовка данных для оплаты, например, суммы заказа
+	const onCheckout = async () => {
 		const totalAmount = cartItems.reduce(
 			(total, item) => total + item.price * item.quantity,
 			0
 		)
 
-		// Вызов API для обработки оплаты (пример использования setTimeout вместо реального вызова API)
-		console.log('Обработка оплаты...')
-		setTimeout(() => {
-			// Предположим, что оплата прошла успешно
-			console.log('Оплата прошла успешно!')
-			// Очистка корзины после успешной оплаты
-			cartItems = []
+		try {
+			const response = await fetch('http://localhost:3001/create-payment', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
+					currency: 'RUB',
+				}),
+			})
 
-			// Обновление интерфейса: скрыть корзину и показать сообщение об успешной оплате
-			document.getElementById('cart').style.display = 'none'
-			document.getElementById('success-message').style.display = 'block'
-		}, 2000) // Здесь мы эмулируем задержку в 2 секунды для имитации обработки оплаты
+			const payment = await response.json()
 
-		// tele.MainButton.text = "Pay :)";
-		// tele.MainButton.show();
+			if (payment.confirmation && payment.confirmation.confirmation_url) {
+				window.location.href = payment.confirmation.confirmation_url
+			}
+		} catch (error) {
+			console.error('Ошибка при создании платежа:', error)
+		}
 	}
 
 	return (
 		<>
 			<h1 className='heading'>Order Food</h1>
-			<Cart cartItems={cartItems} onCheckout={onCheckout} />
-			<div className='cards__container'>
-				{foods.map(food => {
-					return (
-						<Card food={food} key={food.id} onAdd={onAdd} onRemove={onRemove} />
-					)
-				})}
-			</div>
+			{!isCheckoutSuccessful ? (
+				<>
+					<Cart cartItems={cartItems} onCheckout={onCheckout} />
+					<div className='cards__container'>
+						{foods.map(food => {
+							return (
+								<Card
+									food={food}
+									key={food.id}
+									onAdd={onAdd}
+									onRemove={onRemove}
+								/>
+							)
+						})}
+					</div>
+				</>
+			) : (
+				<div style={{ color: 'green' }}>Оплата прошла успешно!</div>
+			)}
 		</>
 	)
 }
