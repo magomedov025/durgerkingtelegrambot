@@ -14,6 +14,7 @@ function App() {
 	useEffect(() => {
 		tele.ready()
 		console.log('Telegram Web App initialized:', tele) // Логирование инициализации
+		console.log('Telegram User Data:', tele.initDataUnsafe.user) // Логирование данных пользователя
 
 		// Проверка параметров URL после возврата пользователя
 		const urlParams = new URLSearchParams(window.location.search)
@@ -57,6 +58,11 @@ function App() {
 		)
 
 		try {
+			const chatId = tele.initDataUnsafe.user?.id
+			if (!chatId) {
+				throw new Error('User ID not found')
+			}
+
 			const response = await fetch('http://localhost:3001/create-payment', {
 				method: 'POST',
 				headers: {
@@ -65,7 +71,7 @@ function App() {
 				body: JSON.stringify({
 					amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
 					currency: 'RUB',
-					chatId: tele.initDataUnsafe.user.id, // Получение chatId из Telegram Web App
+					chatId: chatId, // Получение chatId из Telegram Web App
 				}),
 			})
 
