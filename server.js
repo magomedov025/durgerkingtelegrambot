@@ -7,9 +7,9 @@ const { v4: uuidv4 } = require('uuid') // Импортируем функцию 
 const app = express()
 const port = 3001
 
-const shopId = 'your_shop_id' // Замените на ваш shopId
-const shopArticleId = 'your_shop_article_id' // Замените на ваш shopArticleId
-const telegramBotToken = 'your_telegram_bot_token' // Замените на ваш токен бота
+const shopId = '506751' // Замените на ваш shopId
+const shopArticleId = '538350' // Замените на ваш shopArticleId
+const telegramBotToken = '7287053876:AAHA67oKvVDzNxPZZbsHgL873GyrmJA_Tg0' // Замените на ваш токен бота
 
 app.use(bodyParser.json())
 app.use(cors()) // Включение CORS
