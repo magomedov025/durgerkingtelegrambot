@@ -7,9 +7,10 @@ const { v4: uuidv4 } = require('uuid') // Импортируем функцию 
 const app = express()
 const port = 3001
 
-const shopId = '506751' // Замените на ваш shopId
+const shopId = '506751' // Замените на ваш shopId (не используется в текущем коде)
 const shopArticleId = '538350' // Замените на ваш shopArticleId
 const telegramBotToken = '7287053876:AAHA67oKvVDzNxPZZbsHgL873GyrmJA_Tg0' // Замените на ваш токен бота
+const testPaymentToken = '381764678:TEST:87666' // Замените на ваш тестовый платежный токен
 
 app.use(bodyParser.json())
 app.use(cors()) // Включение CORS
@@ -36,7 +37,7 @@ app.post('/create-payment', async (req, res) => {
 				title: 'Order Payment',
 				description: 'Payment for your order',
 				payload: idempotenceKey,
-				provider_token: shopId, // Используйте ваш shopId как provider_token
+				provider_token: testPaymentToken, // Используйте тестовый платежный токен
 				start_parameter: 'get_access',
 				currency: currency,
 				prices: [{ label: 'Total', amount: amount * 100 }], // Сумма в копейках

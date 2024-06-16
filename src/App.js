@@ -59,6 +59,7 @@ function App() {
 
 		try {
 			const chatId = tele.initDataUnsafe.user?.id
+			console.log('Chat ID:', chatId) // Логирование chatId
 			if (!chatId) {
 				throw new Error('User ID not found')
 			}
@@ -86,6 +87,8 @@ function App() {
 					console.log('MainButton clicked') // Логирование клика по кнопке
 					tele.openInvoice(payment.result.invoice_link)
 				})
+			} else {
+				console.error('Payment not OK:', payment) // Логирование ошибки платежа
 			}
 		} catch (error) {
 			console.error('Ошибка при создании платежа:', error)
