@@ -64,13 +64,18 @@ function App() {
 				body: JSON.stringify({
 					amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
 					currency: 'RUB',
+					chatId: tele.initDataUnsafe.user.id, // Получение chatId из Telegram Web App
 				}),
 			})
 
 			const payment = await response.json()
 
-			if (payment.confirmation && payment.confirmation.confirmation_url) {
-				window.location.href = payment.confirmation.confirmation_url
+			if (payment.ok) {
+				tele.MainButton.setText('Оплатить')
+				tele.MainButton.show()
+				tele.MainButton.onClick(() => {
+					tele.openInvoice(payment.result.invoice_link)
+				})
 			}
 		} catch (error) {
 			console.error('Ошибка при создании платежа:', error)

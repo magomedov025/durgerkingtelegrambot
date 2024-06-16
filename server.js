@@ -7,8 +7,9 @@ const { v4: uuidv4 } = require('uuid') // Импортируем функцию 
 const app = express()
 const port = 3001
 
-const shopId = '403923' // Замените на ваш shopId
-const secretKey = 'test_K2mdBjETILiwpOiyKIazHeovNGGPeMevcXPUIa4VjsM' // Замените на ваш secretKey
+const shopId = 'your_shop_id' // Замените на ваш shopId
+const secretKey = 'your_secret_key' // Замените на ваш secretKey
+const telegramBotToken = 'your_telegram_bot_token' // Замените на ваш токен бота
 
 app.use(bodyParser.json())
 app.use(cors()) // Включение CORS
@@ -22,7 +23,7 @@ app.get('/create-payment', (req, res) => {
 })
 
 app.post('/create-payment', async (req, res) => {
-	const { amount, currency } = req.body
+	const { amount, currency, chatId } = req.body
 
 	try {
 		const authHeader =
@@ -32,24 +33,18 @@ app.post('/create-payment', async (req, res) => {
 		console.log('Idempotence Key:', idempotenceKey) // Логирование ключа идемпотентности
 
 		const response = await axios.post(
-			'https://api.yookassa.ru/v3/payments',
+			`https://api.telegram.org/bot${telegramBotToken}/sendInvoice`,
 			{
-				amount: {
-					value: amount,
-					currency: currency,
-				},
-				confirmation: {
-					type: 'redirect',
+				chat_id: chatId,
+				title: 'Order Payment',
+				description: 'Payment for your order',
+				payload: idempotenceKey,
+				provider_token: secretKey, // Используйте ваш секретный ключ как provider_token
+				start_parameter: 'get_access',
+				currency: currency,
+				prices: [{ label: 'Total', amount: amount * 100 }], // Сумма в копейках
+				provider_data: {
 					return_url: 'http://localhost:3000/success', // URL для возврата после оплаты
-				},
-				capture: true,
-				description: 'Order payment',
-			},
-			{
-				headers: {
-					Authorization: authHeader,
-					'Content-Type': 'application/json',
-					'Idempotence-Key': idempotenceKey, // Добавление ключа идемпотентности
 				},
 			}
 		)
