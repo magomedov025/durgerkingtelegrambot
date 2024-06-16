@@ -13,6 +13,14 @@ function App() {
 
 	useEffect(() => {
 		tele.ready()
+
+		// Проверка параметров URL после возврата пользователя
+		const urlParams = new URLSearchParams(window.location.search)
+		const paymentStatus = urlParams.get('status')
+
+		if (paymentStatus === 'success') {
+			setIsCheckoutSuccessful(true)
+		}
 	}, [])
 
 	const onAdd = food => {
