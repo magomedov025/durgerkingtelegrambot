@@ -7,9 +7,9 @@ const { v4: uuidv4 } = require('uuid') // Импортируем функцию 
 const app = express()
 const port = 3001
 
-const shopId = '506751' // Замените на ваш shopId
-const shopArticleId = '538350' // Замените на ваш shopArticleId
-const telegramBotToken = '7287053876:AAHA67oKvVDzNxPZZbsHgL873GyrmJA_Tg0' // Замените на ваш токен бота
+const shopId = 'your_shop_id' // Замените на ваш shopId
+const shopArticleId = 'your_shop_article_id' // Замените на ваш shopArticleId
+const telegramBotToken = 'your_telegram_bot_token' // Замените на ваш токен бота
 
 app.use(bodyParser.json())
 app.use(cors()) // Включение CORS
@@ -42,7 +42,7 @@ app.post('/create-payment', async (req, res) => {
 				prices: [{ label: 'Total', amount: amount * 100 }], // Сумма в копейках
 				provider_data: {
 					shop_article_id: shopArticleId, // Используйте ваш shopArticleId
-					return_url: 'http://localhost:3000/success', // URL для возврата после оплаты
+					return_url: 'http://87.228.9.67:3000/success', // URL для возврата после оплаты
 				},
 			}
 		)
@@ -60,6 +60,7 @@ app.post('/create-payment', async (req, res) => {
 	}
 })
 
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`)
+app.listen(port, '0.0.0.0', () => {
+	// Слушаем на всех интерфейсах
+	console.log(`Server is running on http://87.228.9.67:${port}`)
 })

@@ -63,7 +63,8 @@ function App() {
 				throw new Error('User ID not found')
 			}
 
-			const response = await fetch('http://localhost:3001/create-payment', {
+			const response = await fetch('http://87.228.9.67:3001/create-payment', {
+				// Обновите URL
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
