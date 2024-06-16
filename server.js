@@ -47,6 +47,7 @@ app.post('/create-payment', async (req, res) => {
 			}
 		)
 
+		console.log('Telegram API response:', response.data) // Логирование ответа Telegram API
 		res.json(response.data)
 	} catch (error) {
 		console.error(

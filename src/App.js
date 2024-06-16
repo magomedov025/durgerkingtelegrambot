@@ -13,6 +13,7 @@ function App() {
 
 	useEffect(() => {
 		tele.ready()
+		console.log('Telegram Web App initialized:', tele) // Логирование инициализации
 
 		// Проверка параметров URL после возврата пользователя
 		const urlParams = new URLSearchParams(window.location.search)
@@ -69,11 +70,13 @@ function App() {
 			})
 
 			const payment = await response.json()
+			console.log('Payment response:', payment) // Логирование ответа платежа
 
 			if (payment.ok) {
 				tele.MainButton.setText('Оплатить')
 				tele.MainButton.show()
 				tele.MainButton.onClick(() => {
+					console.log('MainButton clicked') // Логирование клика по кнопке
 					tele.openInvoice(payment.result.invoice_link)
 				})
 			}
