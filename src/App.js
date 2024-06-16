@@ -16,6 +16,13 @@ function App() {
 		console.log('Telegram Web App initialized:', tele) // Логирование инициализации
 		console.log('Telegram User Data:', tele.initDataUnsafe.user) // Логирование данных пользователя
 
+		if (!tele.initDataUnsafe.user) {
+			console.error(
+				'User data not found. Make sure you are running the app inside Telegram Web App.'
+			)
+			return
+		}
+
 		// Проверка параметров URL после возврата пользователя
 		const urlParams = new URLSearchParams(window.location.search)
 		const paymentStatus = urlParams.get('status')
