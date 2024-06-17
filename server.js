@@ -1,3 +1,5 @@
+const fs = require('fs')
+const https = require('https')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -66,6 +68,29 @@ app.post('/create-payment', async (req, res) => {
 	}
 })
 
-app.listen(port, () => {
-	console.log(`Server is running on http://87.228.9.67:${port}`)
+// Чтение сертификатов SSL
+const privateKey = fs.readFileSync(
+	'/etc/letsencrypt/live/yourdomain.com/privkey.pem',
+	'utf8'
+)
+const certificate = fs.readFileSync(
+	'/etc/letsencrypt/live/yourdomain.com/cert.pem',
+	'utf8'
+)
+const ca = fs.readFileSync(
+	'/etc/letsencrypt/live/yourdomain.com/chain.pem',
+	'utf8'
+)
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca,
+}
+
+// Создание HTTPS сервера
+const httpsServer = https.createServer(credentials, app)
+
+httpsServer.listen(port, () => {
+	console.log(`HTTPS Server is running on https://87.228.9.67:${port}`)
 })
