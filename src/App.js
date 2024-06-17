@@ -13,16 +13,6 @@ function App() {
 
 	useEffect(() => {
 		tele.ready()
-		console.log('Telegram Web App initialized:', tele) // Логирование инициализации
-		console.log('Telegram initData:', tele.initData) // Логирование initData
-		console.log('Telegram initDataUnsafe:', tele.initDataUnsafe) // Логирование initDataUnsafe
-
-		if (!tele.initDataUnsafe || !tele.initDataUnsafe.user) {
-			console.error(
-				'User data not found. Make sure you are running the app inside Telegram Web App.'
-			)
-			return
-		}
 
 		// Проверка параметров URL после возврата пользователя
 		const urlParams = new URLSearchParams(window.location.search)
@@ -66,14 +56,7 @@ function App() {
 		)
 
 		try {
-			const chatId = tele.initDataUnsafe.user?.id
-			console.log('Chat ID:', chatId) // Логирование chatId
-			if (!chatId) {
-				throw new Error('User ID not found')
-			}
-
 			const response = await fetch('http://87.228.9.67:3001/create-payment', {
-				// Обновите URL
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -81,17 +64,13 @@ function App() {
 				body: JSON.stringify({
 					amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
 					currency: 'RUB',
-					chatId: chatId, // Получение chatId из Telegram Web App
 				}),
 			})
 
 			const payment = await response.json()
-			console.log('Payment response:', payment) // Логирование ответа платежа
 
-			if (payment.ok) {
-				console.log('Payment link sent to user') // Логирование отправки ссылки
-			} else {
-				console.error('Payment not OK:', payment) // Логирование ошибки платежа
+			if (payment.confirmation && payment.confirmation.confirmation_url) {
+				window.location.href = payment.confirmation.confirmation_url
 			}
 		} catch (error) {
 			console.error('Ошибка при создании платежа:', error)
