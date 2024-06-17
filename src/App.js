@@ -56,7 +56,8 @@ function App() {
 		)
 
 		try {
-			const response = await fetch('http://87.228.9.67:3001/create-payment', {
+			const response = await fetch('/create-payment', {
+				// Используйте относительный путь
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
