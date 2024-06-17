@@ -1,27 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const cors = require('cors')
 const axios = require('axios')
 const { v4: uuidv4 } = require('uuid') // Импортируем функцию для генерации UUID
 
 const app = express()
 const port = 3001
 
-const shopId = '506751' // Замените на ваш shopId (не используется в текущем коде)
-const shopArticleId = '538350' // Замените на ваш shopArticleId
 const telegramBotToken = '7287053876:AAHA67oKvVDzNxPZZbsHgL873GyrmJA_Tg0' // Замените на ваш токен бота
 const testPaymentToken = '381764678:TEST:87666' // Замените на ваш тестовый платежный токен
 
 app.use(bodyParser.json())
-app.use(cors()) // Включение CORS
-
-app.get('/', (req, res) => {
-	res.send('Server is running')
-})
-
-app.get('/create-payment', (req, res) => {
-	res.send('This endpoint is for POST requests only')
-})
 
 app.post('/create-payment', async (req, res) => {
 	const { amount, currency, chatId } = req.body
@@ -42,8 +30,7 @@ app.post('/create-payment', async (req, res) => {
 				currency: currency,
 				prices: [{ label: 'Total', amount: amount * 100 }], // Сумма в копейках
 				provider_data: {
-					shop_article_id: shopArticleId, // Используйте ваш shopArticleId
-					return_url: 'http://87.228.9.67:3000/success', // URL для возврата после оплаты
+					return_url: 'https://yourdomain.com/success', // URL для возврата после оплаты
 				},
 			}
 		)
@@ -61,7 +48,6 @@ app.post('/create-payment', async (req, res) => {
 	}
 })
 
-app.listen(port, '0.0.0.0', () => {
-	// Слушаем на всех интерфейсах
-	console.log(`Server is running on http://87.228.9.67:${port}`)
+app.listen(port, () => {
+	console.log(`Server is running on http://localhost:${port}`)
 })
