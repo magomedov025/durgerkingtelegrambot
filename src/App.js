@@ -14,9 +14,10 @@ function App() {
 	useEffect(() => {
 		tele.ready()
 		console.log('Telegram Web App initialized:', tele) // Логирование инициализации
-		console.log('Telegram User Data:', tele.initDataUnsafe.user) // Логирование данных пользователя
+		console.log('Telegram initData:', tele.initData) // Логирование initData
+		console.log('Telegram initDataUnsafe:', tele.initDataUnsafe) // Логирование initDataUnsafe
 
-		if (!tele.initDataUnsafe.user) {
+		if (!tele.initDataUnsafe || !tele.initDataUnsafe.user) {
 			console.error(
 				'User data not found. Make sure you are running the app inside Telegram Web App.'
 			)
@@ -88,12 +89,7 @@ function App() {
 			console.log('Payment response:', payment) // Логирование ответа платежа
 
 			if (payment.ok) {
-				tele.MainButton.setText('Оплатить')
-				tele.MainButton.show()
-				tele.MainButton.onClick(() => {
-					console.log('MainButton clicked') // Логирование клика по кнопке
-					tele.openInvoice(payment.result.invoice_link)
-				})
+				console.log('Payment link sent to user') // Логирование отправки ссылки
 			} else {
 				console.error('Payment not OK:', payment) // Логирование ошибки платежа
 			}
