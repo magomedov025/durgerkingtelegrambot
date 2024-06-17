@@ -57,7 +57,7 @@ function App() {
 
 		try {
 			const response = await fetch('http://87.228.9.67:3001/create-payment', {
-				// Используйте HTTP с CORS
+				// Используйте HTTP URL
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
