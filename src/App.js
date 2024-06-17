@@ -68,6 +68,10 @@ function App() {
 				}),
 			})
 
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`)
+			}
+
 			const payment = await response.json()
 
 			if (payment.confirmation && payment.confirmation.confirmation_url) {
