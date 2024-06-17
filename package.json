@@ -19,9 +19,9 @@
 		"yookassa": "^0.1.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"start": "react-app-rewired start",
+		"build": "react-app-rewired build",
+		"test": "react-app-rewired test",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -42,5 +42,9 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "http://87.228.9.67:3001"
+	"proxy": "http://87.228.9.67:3001",
+	"devDependencies": {
+		"copy-webpack-plugin": "^12.0.2",
+		"react-app-rewired": "^2.2.1"
+	}
 }
