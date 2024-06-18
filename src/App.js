@@ -56,17 +56,20 @@ function App() {
 		)
 
 		try {
-			const response = await fetch('https://31.128.40.24:3001/create-payment', {
-				// Используйте HTTP URL
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
-					currency: 'RUB',
-				}),
-			})
+			const response = await fetch(
+				'https://profident05.ru:3001//create-payment',
+				{
+					// Используйте HTTP URL
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
+						currency: 'RUB',
+					}),
+				}
+			)
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`)
