@@ -56,7 +56,7 @@ function App() {
 		)
 
 		try {
-			const response = await fetch('http://87.228.9.67:3001/create-payment', {
+			const response = await fetch('https://31.128.40.24:3001/create-payment', {
 				// Используйте HTTP URL
 				method: 'POST',
 				headers: {

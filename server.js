@@ -67,5 +67,5 @@ app.post('/create-payment', async (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log(`Server is running on http://87.228.9.67:${port}`)
+	console.log(`Server is running on https://31.128.40.24:${port}`)
 })
