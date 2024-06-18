@@ -56,7 +56,7 @@ function App() {
 		)
 
 		try {
-			const response = await fetch('https://profident05:3001/create-payment', {
+			const response = await fetch('https://31.128.40.24:3001/create-payment', {
 				// Используйте HTTP URL
 				method: 'POST',
 				headers: {
