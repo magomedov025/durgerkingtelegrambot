@@ -83,7 +83,7 @@ function App() {
 				window.location.href = payment.confirmation.confirmation_url
 			}
 		} catch (error) {
-			console.error('Ошибка при создании платежа:', error)
+			console.error('Ошибка при создании платежа:', error) // Логирование ошибки в консоль и терминал
 		}
 	}
 

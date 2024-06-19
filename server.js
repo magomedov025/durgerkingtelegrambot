@@ -88,7 +88,7 @@ app.post('/create-payment', async (req, res) => {
 		console.error(
 			'Ошибка при создании платежа:',
 			error.response ? error.response.data : error.message
-		) // Логирование ошибки
+		) // Логирование ошибки в консоль и терминал
 		res
 			.status(500)
 			.json({ error: error.response ? error.response.data : error.message })
