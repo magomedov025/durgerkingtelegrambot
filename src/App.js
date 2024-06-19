@@ -59,7 +59,6 @@ function App() {
 			const response = await fetch(
 				'https://profident05.ru:3001/create-payment',
 				{
-					// Используйте HTTP URL
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -67,6 +66,9 @@ function App() {
 					body: JSON.stringify({
 						amount: totalAmount.toFixed(2), // Сумма в формате строки с двумя знаками после запятой
 						currency: 'RUB',
+						cartItems: cartItems,
+						username: tele.initDataUnsafe.user.username, // Имя аккаунта из Telegram
+						phoneNumber: tele.initDataUnsafe.user.phone_number, // Номер телефона из Telegram
 					}),
 				}
 			)

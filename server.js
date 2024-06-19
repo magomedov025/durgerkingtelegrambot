@@ -11,6 +11,8 @@ const port = 3001
 
 const shopId = '403923' // Замените на ваш shopId
 const secretKey = 'test_K2mdBjETILiwpOiyKIazHeovNGGPeMevcXPUIa4VjsM' // Замените на ваш secretKey
+const telegramBotToken = '7287053876:AAHA67oKvVDzNxPZZbsHgL873GyrmJA_Tg0' // Замените на ваш токен Telegram бота
+const adminTelegramUsername = '@il12234' // Замените на имя пользователя администратора
 
 app.use(bodyParser.json())
 app.use(cors()) // Включение CORS
@@ -24,7 +26,7 @@ app.get('/create-payment', (req, res) => {
 })
 
 app.post('/create-payment', async (req, res) => {
-	const { amount, currency } = req.body
+	const { amount, currency, cartItems, username, phoneNumber } = req.body
 
 	try {
 		const authHeader =
@@ -53,6 +55,31 @@ app.post('/create-payment', async (req, res) => {
 					'Content-Type': 'application/json',
 					'Idempotence-Key': idempotenceKey, // Добавление ключа идемпотентности
 				},
+			}
+		)
+
+		// Отправка сообщения администратору в Telegram
+		const orderDetails = cartItems
+			.map(item => `${item.name} x${item.quantity}`)
+			.join('\n')
+		const adminMessage = `Имя аккаунта: ${username}\nНомер телефона: ${phoneNumber}\nЗаказ:\n${orderDetails}\nОбщая сумма: ${amount} ${currency}`
+
+		await axios.post(
+			`https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
+			{
+				chat_id: adminTelegramUsername,
+				text: adminMessage,
+			}
+		)
+
+		// Отправка сообщения клиенту в Telegram
+		const clientMessage = `Спасибо, скоро с вами свяжется наш менеджер`
+
+		await axios.post(
+			`https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
+			{
+				chat_id: username,
+				text: clientMessage,
 			}
 		)
 
