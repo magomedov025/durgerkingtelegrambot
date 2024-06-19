@@ -92,5 +92,5 @@ const credentials = {
 const httpsServer = https.createServer(credentials, app)
 
 httpsServer.listen(port, () => {
-	console.log(`HTTPS Server is running on https://profident05.ru:${port}`)
+	console.log(`HTTPS Server is running on https://31.128.40.24:${port}`)
 })
