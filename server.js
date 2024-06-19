@@ -70,15 +70,15 @@ app.post('/create-payment', async (req, res) => {
 
 // Чтение сертификатов SSL
 const privateKey = fs.readFileSync(
-	'/etc/letsencrypt/live/profident05.ru/privkey.pem',
+	'/etc/letsencrypt/live/example.com/privkey.pem',
 	'utf8'
 )
 const certificate = fs.readFileSync(
-	'/etc/letsencrypt/live/profident05.ru/cert.pem',
+	'/etc/letsencrypt/live/example.com/cert.pem',
 	'utf8'
 )
 const ca = fs.readFileSync(
-	'/etc/letsencrypt/live/profident05.ru/chain.pem',
+	'/etc/letsencrypt/live/example.com/chain.pem',
 	'utf8'
 )
 
@@ -92,5 +92,5 @@ const credentials = {
 const httpsServer = https.createServer(credentials, app)
 
 httpsServer.listen(port, () => {
-	console.log(`HTTPS Server is running on https://31.128.40.24:${port}`)
+	console.log(`HTTPS Server is running on https://example.com:${port}`)
 })
